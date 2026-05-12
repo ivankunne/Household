@@ -1,0 +1,13 @@
+// Domain barrel — all core types exported from one place
+export * from './household/types'
+export * from './member/types'
+export * from './task/types'
+export * from './routine/types'
+export * from './grocery/types'
+export * from './expense/types'
+export * from './household-object/types'
+export * from './maintenance/types'
+export * from './event-calendar/types'
+export * from './document/types'
+export * from './notification/types'
+export * from './activity/types'

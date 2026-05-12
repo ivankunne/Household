@@ -1,7 +1,10 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
-  /* config options here */
-};
+  reactStrictMode: true,
+  poweredByHeader: false,
+  transpilePackages: ['framer-motion'],
+  turbopack: {},
+}
 
-export default nextConfig;
+export default nextConfig
