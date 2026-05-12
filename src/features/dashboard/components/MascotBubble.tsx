@@ -33,7 +33,7 @@ export function MascotBubble() {
         initial={{ opacity: 0, y: 32, scale: 0.85 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         exit={{ opacity: 0, y: 16, scale: 0.9 }}
-        transition={{ type: 'spring', stiffness: 380, damping: 28 }}
+        transition={{ type: 'spring', stiffness: 180, damping: 24 }}
         className="fixed bottom-24 md:bottom-8 right-4 md:right-6 z-50 flex items-end gap-2 max-w-[320px]"
       >
         {/* The character */}

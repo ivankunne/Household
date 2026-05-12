@@ -1,92 +1,90 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { useMemo } from 'react'
 import { useHouseholdStore } from '@/shared/store/householdStore'
 import { useTaskStore } from '@/shared/store/taskStore'
-import { useRoutineStore } from '@/shared/store/routineStore'
-import { useMemo } from 'react'
+import { cn } from '@/lib/utils'
 
-type Tier = { label: string; tagline: string; bg: string; fill: string; text: string }
-
-function getTier(pct: number): Tier {
-  if (pct >= 90) return { label: 'Thriving', tagline: 'Your home is glowing ✨', bg: 'bg-emerald-50 dark:bg-emerald-900/20', fill: 'bg-emerald-500', text: 'text-emerald-700 dark:text-emerald-300' }
-  if (pct >= 60) return { label: 'Cozy', tagline: "Things are running smoothly", bg: 'bg-sky-50 dark:bg-sky-900/20', fill: 'bg-sky-500', text: 'text-sky-700 dark:text-sky-300' }
-  if (pct >= 30) return { label: 'Getting there', tagline: 'A few tasks left to go', bg: 'bg-amber-50 dark:bg-amber-900/20', fill: 'bg-amber-500', text: 'text-amber-700 dark:text-amber-300' }
-  return { label: 'Needs love', tagline: 'Even one task makes a difference', bg: 'bg-rose-50 dark:bg-rose-900/20', fill: 'bg-rose-500', text: 'text-rose-700 dark:text-rose-300' }
+function getStatusPhrase(remaining: number, total: number): string {
+  if (total === 0)     return 'Nothing on the list today'
+  if (remaining === 0) return 'Everything taken care of'
+  if (remaining === 1) return 'One small thing left today'
+  if (remaining <= 3)  return 'A couple of things on the list'
+  return 'A few things to work through today'
 }
 
 export function HouseholdMoodCard() {
   const { household, members } = useHouseholdStore()
   const { tasks } = useTaskStore()
-  const { routines } = useRoutineStore()
 
-  const stats = useMemo(() => {
-    if (!household) return { donePct: 0, todayDone: 0, todayTotal: 0 }
+  const { remaining, total } = useMemo(() => {
+    if (!household) return { remaining: 0, total: 0 }
     const today = new Date()
     const todayTasks = tasks.filter((t) => {
       if (t.householdId !== household.id || !t.dueDate) return false
       const due = new Date(t.dueDate)
-      return due.getDate() === today.getDate() && due.getMonth() === today.getMonth()
+      return (
+        due.getDate() === today.getDate() &&
+        due.getMonth() === today.getMonth() &&
+        due.getFullYear() === today.getFullYear()
+      )
     })
-    const done = todayTasks.filter((t) => t.status === 'done')
-    const total = todayTasks.length || 1
-    return { donePct: Math.round((done.length / total) * 100), todayDone: done.length, todayTotal: todayTasks.length }
-  }, [tasks, routines, household])
+    const done = todayTasks.filter((t) => t.status === 'done').length
+    return { remaining: todayTasks.length - done, total: todayTasks.length }
+  }, [tasks, household])
 
-  const tier = getTier(stats.donePct)
-  const pips = Math.round((stats.donePct / 100) * 5)
+  if (!household) return null
+
+  const phrase = getStatusPhrase(remaining, total)
+  const dots = Math.min(total, 6)
+  const doneDots = total > 0 ? Math.round(((total - remaining) / total) * dots) : 0
 
   return (
-    <div className={`rounded-3xl ${tier.bg} overflow-hidden`}>
-      <div className="px-5 pt-5 pb-4">
-        <div className="flex items-start justify-between">
-          <div>
-            <p className="text-[11px] font-bold uppercase tracking-[0.1em] text-foreground/40 mb-1">Home status</p>
-            <p className={`text-xl font-black tracking-tight ${tier.text}`}>{tier.label}</p>
-            <p className="text-sm text-foreground/50 mt-0.5">{tier.tagline}</p>
-          </div>
-          <div className="text-right">
-            <motion.p
-              key={stats.donePct}
-              initial={{ scale: 0.85, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              className="text-4xl font-black text-foreground tabular-nums leading-none"
-            >
-              {stats.donePct}<span className="text-2xl text-foreground/40">%</span>
-            </motion.p>
-            <p className="text-xs text-foreground/40 mt-1">{stats.todayDone} of {stats.todayTotal} tasks</p>
-          </div>
+    <div className="bg-surface-2 border border-border-soft rounded-lg px-5 py-4">
+      <div className="flex items-start justify-between gap-4">
+        <div className="min-w-0">
+          <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1.5">Home today</p>
+          <p className="text-base font-medium text-foreground leading-snug">{phrase}</p>
+          {remaining > 0 && total > 0 && (
+            <p className="text-sm text-muted-foreground mt-0.5">
+              {total - remaining} of {total} done
+            </p>
+          )}
         </div>
 
-        {/* Pip bar */}
-        <div className="flex gap-1.5 mt-4">
-          {Array.from({ length: 5 }).map((_, i) => (
-            <motion.div
-              key={i}
-              initial={{ scaleX: 0, originX: 0 }}
-              animate={{ scaleX: 1 }}
-              transition={{ delay: 0.05 + i * 0.05, duration: 0.25 }}
-              className={`h-2 flex-1 rounded-full ${i < pips ? tier.fill : 'bg-black/10 dark:bg-white/10'}`}
-            />
-          ))}
-        </div>
+        {/* Soft dot indicator — not a score, just a gentle visual */}
+        {dots > 0 && (
+          <div className="flex gap-1.5 items-center shrink-0 pt-1">
+            {Array.from({ length: dots }).map((_, i) => (
+              <div
+                key={i}
+                className={cn(
+                  'w-2 h-2 rounded-full transition-colors duration-300',
+                  i < doneDots ? 'bg-primary/50' : 'bg-border-strong',
+                )}
+              />
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Members */}
       {members.length > 0 && (
-        <div className="flex items-center gap-4 px-5 py-3 border-t border-black/[0.06] dark:border-white/[0.06]">
+        <div className="flex items-center gap-4 mt-4 pt-3 border-t border-border-soft">
           {members.map((m) => (
-            <div key={m.id} className="flex items-center gap-2">
+            <div key={m.id} className="flex items-center gap-1.5">
               <div
-                className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold"
-                style={{ backgroundColor: m.color + '28', color: m.color }}
+                className="w-6 h-6 rounded-full flex items-center justify-center text-xs shrink-0"
+                style={{ backgroundColor: m.color + '25' }}
               >
                 {m.emoji}
               </div>
-              <div>
-                <p className="text-xs font-semibold text-foreground/80">{m.name}</p>
-                <p className="text-[10px] font-medium text-amber-500">🔥 {m.stats.currentStreak}d</p>
-              </div>
+              <p className="text-xs text-muted-foreground">{m.name}</p>
+              {m.stats.currentStreak > 1 && (
+                <span className="text-[10px] text-hb-yellow-fg font-medium">
+                  {m.stats.currentStreak}d
+                </span>
+              )}
             </div>
           ))}
         </div>

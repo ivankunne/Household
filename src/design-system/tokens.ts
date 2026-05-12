@@ -1,51 +1,31 @@
 export const palette = {
-  // Warm neutrals
-  cream: '#FDF8F0',
-  sand: '#F5EDD6',
-  latte: '#E8D5B7',
-  cocoa: '#C4956A',
-  bark: '#8B6144',
+  // Backgrounds
+  bg:       '#F6F1E8',
+  surface:  '#FFFFFF',
+  surface2: '#F3EDE3',
 
-  // Sage greens
-  mint: '#E8F5F0',
-  sage: '#7CB9A8',
-  forest: '#4A8B7A',
+  // Text
+  textPrimary:   '#2E2A27',
+  textSecondary: '#6F665F',
+  textMuted:     '#A39A92',
 
-  // Warm accents
-  peach: '#FDDBC7',
-  apricot: '#F4A261',
-  terracotta: '#E07B55',
+  // Brand accents
+  green:  '#8FAF9A',
+  blue:   '#8FA8C3',
+  yellow: '#E7D39C',
+  red:    '#D9A2A2',
+  orange: '#D7A98C',
 
-  // Sky blues
-  mist: '#EAF4FB',
-  sky: '#A8DADC',
-  denim: '#457B9D',
+  // Borders
+  border:       '#E7DED3',
+  borderSoft:   '#F0E8DD',
+  borderStrong: '#D9CFC2',
 
-  // Lavender
-  lavender: '#F0EAF8',
-  violet: '#9B8EC4',
-  plum: '#6B5B95',
-
-  // Sunshine
-  cream_yellow: '#FFF8E1',
-  honey: '#FFD166',
-  amber: '#F4A261',
-
-  // Neutrals
-  white: '#FFFFFF',
-  off_white: '#FAFAFA',
-  light: '#F5F5F5',
-  muted: '#E0E0E0',
-  subtle: '#9E9E9E',
-  mid: '#616161',
-  dark: '#212121',
-  black: '#000000',
-
-  // Status
-  success: '#4CAF8C',
-  warning: '#FFD166',
-  error: '#FF6B6B',
-  info: '#74C0FC',
+  // Semantic
+  success: '#8FAF9A',
+  warning: '#E7D39C',
+  danger:  '#D9A2A2',
+  info:    '#8FA8C3',
 } as const
 
 export const categoryEmojis: Record<string, string> = {

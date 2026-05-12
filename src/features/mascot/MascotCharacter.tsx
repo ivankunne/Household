@@ -14,14 +14,14 @@ interface MascotCharacterProps {
 }
 
 const C = {
-  body: '#4d8c7a',
-  bodyShade: '#3b7062',
-  bodyHighlight: '#62a891',
-  white: '#fffef8',
-  pupil: '#1c2e28',
-  blush: '#f4876e',
-  tongue: '#e05555',
-  gold: '#f59e0b',
+  body:          '#EFE4CE',   // warm beige
+  bodyShade:     '#D9CDB6',   // slightly deeper for shadow/ears
+  bodyHighlight: '#F8F2E6',   // soft highlight
+  white:         '#FFFEF8',
+  pupil:         '#2E2A27',   // soft dark brown, not pure black
+  blush:         '#D9A2A2',   // muted rose from the design palette
+  tongue:        '#C98F8F',
+  gold:          '#E7D39C',   // warm yellow from palette (celebrating state)
 }
 
 // ─── Per-mood face elements ───────────────────────────────────────────────────

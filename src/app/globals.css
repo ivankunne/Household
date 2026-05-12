@@ -5,140 +5,164 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-sans);
-  --font-mono: var(--font-geist-mono);
-  --font-heading: var(--font-sans);
-  --color-sidebar-ring: var(--sidebar-ring);
-  --color-sidebar-border: var(--sidebar-border);
+  --color-background:              var(--background);
+  --color-foreground:              var(--foreground);
+  --font-sans:                     var(--font-sans);
+  --font-mono:                     var(--font-geist-mono);
+  --font-heading:                  var(--font-sans);
+  --color-sidebar-ring:            var(--sidebar-ring);
+  --color-sidebar-border:          var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent:          var(--sidebar-accent);
   --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar: var(--sidebar);
-  --color-chart-5: var(--chart-5);
-  --color-chart-4: var(--chart-4);
-  --color-chart-3: var(--chart-3);
-  --color-chart-2: var(--chart-2);
-  --color-chart-1: var(--chart-1);
-  --color-ring: var(--ring);
-  --color-input: var(--input);
-  --color-border: var(--border);
-  --color-destructive: var(--destructive);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-accent: var(--accent);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-muted: var(--muted);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-secondary: var(--secondary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-primary: var(--primary);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-popover: var(--popover);
-  --color-card-foreground: var(--card-foreground);
-  --color-card: var(--card);
-  --radius-sm: calc(var(--radius) * 0.6);
-  --radius-md: calc(var(--radius) * 0.8);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) * 1.4);
-  --radius-2xl: calc(var(--radius) * 1.8);
-  --radius-3xl: calc(var(--radius) * 2.2);
-  --radius-4xl: calc(var(--radius) * 2.6);
+  --color-sidebar-primary:         var(--sidebar-primary);
+  --color-sidebar-foreground:      var(--sidebar-foreground);
+  --color-sidebar:                 var(--sidebar);
+  --color-chart-5:                 var(--chart-5);
+  --color-chart-4:                 var(--chart-4);
+  --color-chart-3:                 var(--chart-3);
+  --color-chart-2:                 var(--chart-2);
+  --color-chart-1:                 var(--chart-1);
+  --color-ring:                    var(--ring);
+  --color-input:                   var(--input);
+  --color-border:                  var(--border);
+  --color-destructive:             var(--destructive);
+  --color-accent-foreground:       var(--accent-foreground);
+  --color-accent:                  var(--accent);
+  --color-muted-foreground:        var(--muted-foreground);
+  --color-muted:                   var(--muted);
+  --color-secondary-foreground:    var(--secondary-foreground);
+  --color-secondary:               var(--secondary);
+  --color-primary-foreground:      var(--primary-foreground);
+  --color-primary:                 var(--primary);
+  --color-popover-foreground:      var(--popover-foreground);
+  --color-popover:                 var(--popover);
+  --color-card-foreground:         var(--card-foreground);
+  --color-card:                    var(--card);
+
+  /* Homebase extras — available as bg-surface-2, border-border-soft, etc. */
+  --color-surface-2:               var(--surface-2);
+  --color-border-soft:             var(--border-soft);
+  --color-border-strong:           var(--border-strong);
+
+  /* Semantic accent colors for badges, status indicators */
+  --color-hb-yellow:    #E7D39C;
+  --color-hb-yellow-fg: #5A4A1A;
+  --color-hb-green-fg:  #527a63;
+  --color-hb-blue-fg:   #3d6285;
+  --color-hb-red-fg:    #8f4a4a;
+
+  /* Radius — matches design spec exactly */
+  --radius-sm:   10px;
+  --radius-md:   14px;
+  --radius-lg:   18px;
+  --radius-xl:   24px;
+  --radius-2xl:  32px;
+  --radius-3xl:  42px;
+  --radius-4xl:  56px;
 }
 
-/* ─── Hearth Design System ─── */
+/* ─── Homebase Design System ───────────────────────────────────────────────── */
 :root {
-  /* Warm parchment background */
-  --background: oklch(0.984 0.012 75);
-  --foreground: oklch(0.17 0.025 50);
+  /* Backgrounds */
+  --background: #F6F1E8;
+  --surface-2:  #F3EDE3;
 
-  /* Pure white cards — no tint */
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.17 0.025 50);
+  /* Cards / Popovers */
+  --card:              #FFFFFF;
+  --card-foreground:   #2E2A27;
+  --popover:           #FFFFFF;
+  --popover-foreground: #2E2A27;
 
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.17 0.025 50);
+  /* Text */
+  --foreground:        #2E2A27;
+  --muted-foreground:  #A39A92;
 
-  /* Primary: hearth amber */
-  --primary: oklch(0.64 0.20 52);
-  --primary-foreground: oklch(0.99 0 0);
+  /* Primary — sage green */
+  --primary:           #8FAF9A;
+  --primary-foreground: #FFFFFF;
 
-  /* Warm sand secondary */
-  --secondary: oklch(0.95 0.018 72);
-  --secondary-foreground: oklch(0.35 0.04 62);
+  /* Secondary / Muted — warm sand */
+  --secondary:             #F3EDE3;
+  --secondary-foreground:  #6F665F;
+  --muted:                 #F3EDE3;
 
-  /* Muted */
-  --muted: oklch(0.955 0.01 75);
-  --muted-foreground: oklch(0.53 0.022 65);
+  /* Accent — terracotta */
+  --accent:            #D7A98C;
+  --accent-foreground: #5A2E14;
 
-  /* Warm peach accent */
-  --accent: oklch(0.93 0.038 48);
-  --accent-foreground: oklch(0.28 0.06 45);
+  /* Borders */
+  --border:        #E7DED3;
+  --border-soft:   #F0E8DD;
+  --border-strong: #D9CFC2;
+  --input:         #F0E8DD;
 
-  /* Very subtle borders — use sparingly */
-  --border: oklch(0.90 0.012 75);
-  --input: oklch(0.92 0.01 75);
-  --ring: oklch(0.64 0.20 52);
+  /* Focus ring — dusty sky blue */
+  --ring:        #8FA8C3;
 
-  --destructive: oklch(0.62 0.22 25);
+  /* Destructive — muted rose */
+  --destructive: #D9A2A2;
 
-  /* Generous radius */
+  /* Radius base (14px) — used by shadcn internals */
   --radius: 0.875rem;
 
-  /* Dark espresso sidebar */
-  --sidebar: oklch(0.16 0.022 45);
-  --sidebar-foreground: oklch(0.86 0.015 72);
-  --sidebar-primary: oklch(0.64 0.20 52);
-  --sidebar-primary-foreground: oklch(0.99 0 0);
-  --sidebar-accent: oklch(0.24 0.025 45);
-  --sidebar-accent-foreground: oklch(0.95 0.01 75);
-  --sidebar-border: oklch(1 0 0 / 8%);
-  --sidebar-ring: oklch(0.64 0.20 52);
+  /* Sidebar — deep sage green, like sage kitchen cabinets */
+  --sidebar:                    #4A6357;
+  --sidebar-foreground:         #D4E8DC;
+  --sidebar-primary:            #A8CCBA;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent:             #566F62;
+  --sidebar-accent-foreground:  #EBF4EE;
+  --sidebar-border:             rgba(0, 0, 0, 0.10);
+  --sidebar-ring:               #A8CCBA;
 
-  /* Chart palette */
-  --chart-1: oklch(0.64 0.20 52);
-  --chart-2: oklch(0.52 0.14 175);
-  --chart-3: oklch(0.65 0.12 260);
-  --chart-4: oklch(0.70 0.14 130);
-  --chart-5: oklch(0.68 0.18 25);
+  /* Charts */
+  --chart-1: #8FAF9A;
+  --chart-2: #8FA8C3;
+  --chart-3: #E7D39C;
+  --chart-4: #D7A98C;
+  --chart-5: #D9A2A2;
 }
 
+/* ─── Dark mode — warm dimmed palette ─────────────────────────────────────── */
 .dark {
-  --background: oklch(0.14 0.018 240);
-  --foreground: oklch(0.95 0.01 75);
-  --card: oklch(0.18 0.016 240);
-  --card-foreground: oklch(0.95 0.01 75);
-  --popover: oklch(0.18 0.016 240);
-  --popover-foreground: oklch(0.95 0.01 75);
-  --primary: oklch(0.72 0.18 52);
-  --primary-foreground: oklch(0.1 0.02 50);
-  --secondary: oklch(0.25 0.02 240);
-  --secondary-foreground: oklch(0.95 0.01 75);
-  --muted: oklch(0.25 0.018 240);
-  --muted-foreground: oklch(0.62 0.018 240);
-  --accent: oklch(0.28 0.04 50);
-  --accent-foreground: oklch(0.95 0.01 75);
-  --destructive: oklch(0.70 0.19 22);
-  --border: oklch(1 0 0 / 9%);
-  --input: oklch(1 0 0 / 11%);
-  --ring: oklch(0.72 0.18 52);
-  --chart-1: oklch(0.72 0.18 52);
-  --chart-2: oklch(0.62 0.12 175);
-  --chart-3: oklch(0.65 0.12 260);
-  --chart-4: oklch(0.72 0.14 130);
-  --chart-5: oklch(0.70 0.16 25);
-  --sidebar: oklch(0.12 0.018 240);
-  --sidebar-foreground: oklch(0.88 0.012 75);
-  --sidebar-primary: oklch(0.72 0.18 52);
-  --sidebar-primary-foreground: oklch(0.1 0.02 50);
-  --sidebar-accent: oklch(0.2 0.02 240);
-  --sidebar-accent-foreground: oklch(0.95 0.01 75);
-  --sidebar-border: oklch(1 0 0 / 8%);
-  --sidebar-ring: oklch(0.72 0.18 52);
+  --background:          #1E1B17;
+  --surface-2:           #2C2720;
+  --card:                #252118;
+  --card-foreground:     #EDE3D3;
+  --popover:             #252118;
+  --popover-foreground:  #EDE3D3;
+  --foreground:          #EDE3D3;
+  --muted:               #302B23;
+  --muted-foreground:    #8A8078;
+  --secondary:           #302B23;
+  --secondary-foreground: #C8BDB0;
+  --primary:             #9BBF8A;
+  --primary-foreground:  #1A2A1E;
+  --accent:              #C4957A;
+  --accent-foreground:   #F5E8DC;
+  --border:              rgba(255, 255, 255, 0.09);
+  --border-soft:         rgba(255, 255, 255, 0.05);
+  --border-strong:       rgba(255, 255, 255, 0.13);
+  --input:               rgba(255, 255, 255, 0.07);
+  --ring:                #8FA8C3;
+  --destructive:         #C98F8F;
+  --sidebar:             #2C3D36;
+  --sidebar-foreground:  #B8D4C0;
+  --sidebar-primary:     #8FBF9A;
+  --sidebar-primary-foreground: #0F1F15;
+  --sidebar-accent:      #374A41;
+  --sidebar-accent-foreground: #D4E8DC;
+  --sidebar-border:      rgba(0, 0, 0, 0.15);
+  --sidebar-ring:        #8FBF9A;
+  --chart-1: #9BBF8A;
+  --chart-2: #8FA8C3;
+  --chart-3: #D4C28A;
+  --chart-4: #C4957A;
+  --chart-5: #C98F8F;
 }
 
+/* ─── Base ─────────────────────────────────────────────────────────────────── */
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -153,50 +177,102 @@
   }
 }
 
-/* ─── Animations ─── */
+/* ─── Paper texture ────────────────────────────────────────────────────────── */
+/* Very faint grain so the background reads like warm notebook paper */
+body {
+  position: relative;
+}
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  opacity: 0.028;
+  pointer-events: none;
+  z-index: -1;
+  mix-blend-mode: multiply;
+}
+
+/* ─── Animations ───────────────────────────────────────────────────────────── */
+/* Everything slow, soft, organic — cubic-bezier(0.2, 0.8, 0.2, 1) throughout */
+
 @keyframes breathe {
   0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.03); }
+  50%       { transform: scale(1.02); }
 }
 
 @keyframes float {
   0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-6px); }
+  50%       { transform: translateY(-6px); }
 }
 
-@keyframes pop {
-  0% { transform: scale(0.8); opacity: 0; }
-  70% { transform: scale(1.08); }
-  100% { transform: scale(1); opacity: 1; }
+@keyframes bob {
+  0%, 100% { transform: translateY(0)    rotate(-1deg); }
+  50%       { transform: translateY(-5px) rotate(1deg); }
 }
 
 @keyframes slide-up {
-  from { transform: translateY(12px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+  from { transform: translateY(10px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.96); }
+  to   { opacity: 1; transform: scale(1); }
 }
 
 @keyframes check-pop {
-  0% { transform: scale(0.6); }
-  60% { transform: scale(1.2); }
+  0%   { transform: scale(0.7); }
+  55%  { transform: scale(1.1); }
   100% { transform: scale(1); }
 }
 
-.animate-breathe { animation: breathe 3s ease-in-out infinite; }
-.animate-float { animation: float 3s ease-in-out infinite; }
-.animate-pop { animation: pop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
-.animate-slide-up { animation: slide-up 0.25s ease-out; }
-.animate-check-pop { animation: check-pop 0.25s cubic-bezier(0.34, 1.56, 0.64, 1); }
-
-/* ─── Scrollbar ─── */
-::-webkit-scrollbar { width: 5px; height: 5px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb {
-  background: oklch(0.78 0.025 72);
-  border-radius: 99px;
+@keyframes task-done {
+  0%   { opacity: 1;    transform: scale(1); }
+  40%  { opacity: 0.9;  transform: scale(1.02); }
+  100% { opacity: 0.45; transform: scale(0.99); }
 }
 
-/* ─── Focus ─── */
+.animate-breathe   { animation: breathe   3s    cubic-bezier(0.2, 0.8, 0.2, 1) infinite; }
+.animate-float     { animation: float     3.5s  cubic-bezier(0.2, 0.8, 0.2, 1) infinite; }
+.animate-bob       { animation: bob       4s    cubic-bezier(0.2, 0.8, 0.2, 1) infinite; }
+.animate-slide-up  { animation: slide-up  400ms cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+.animate-fade-in   { animation: fade-in   400ms cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+.animate-scale-in  { animation: scale-in  250ms cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+.animate-check-pop { animation: check-pop 350ms cubic-bezier(0.2, 0.8, 0.2, 1); }
+.animate-task-done { animation: task-done 600ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
+
+/* ─── Scrollbar ────────────────────────────────────────────────────────────── */
+::-webkit-scrollbar       { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: #D9CFC2;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover { background: #A39A92; }
+
+/* ─── Focus ────────────────────────────────────────────────────────────────── */
 :focus-visible {
-  outline: 2px solid oklch(0.64 0.20 52);
+  outline: 2px solid #8FA8C3;
   outline-offset: 2px;
+}
+
+/* ─── Selection ────────────────────────────────────────────────────────────── */
+::selection {
+  background-color: rgba(143, 168, 195, 0.25);
+  color: #2E2A27;
+}
+
+/* ─── Reduced motion ───────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }

@@ -18,8 +18,8 @@ const container: Variants = {
 }
 
 const item: Variants = {
-  hidden: { opacity: 0, y: 16 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] } },
+  hidden: { opacity: 0, y: 10 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: [0.2, 0.8, 0.2, 1] } },
 }
 
 function getGreeting(hour: number): string {
@@ -58,10 +58,10 @@ export default function TodayPage() {
           <p className="text-xs font-semibold text-muted-foreground uppercase tracking-[0.12em] mb-2">
             {format(today, 'EEEE, MMM d')}
           </p>
-          <h1 className="text-[2rem] font-black text-foreground leading-none tracking-tight">
+          <h1 className="text-[1.75rem] font-semibold text-foreground leading-none tracking-tight">
             {getGreeting(hour)}
           </h1>
-          <p className="text-lg font-semibold text-foreground/70 mt-0.5">
+          <p className="text-lg font-medium text-foreground/60 mt-0.5">
             {member?.name ?? 'friend'}{member?.emoji ? ` ${member.emoji}` : ''}
           </p>
           {household && (
@@ -70,7 +70,7 @@ export default function TodayPage() {
             </p>
           )}
           {streak > 1 && (
-            <div className="inline-flex items-center gap-1.5 mt-2 bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-300 px-3 py-1.5 rounded-full text-sm font-semibold">
+            <div className="inline-flex items-center gap-1.5 mt-2 bg-hb-yellow/20 text-hb-yellow-fg px-3 py-1 rounded-full text-xs font-medium">
               🔥 {streak}-day streak
             </div>
           )}
