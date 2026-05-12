@@ -13,21 +13,21 @@ import { useActivityStore } from '@/shared/store/activityStore'
 import type { MascotMood } from '@/mascot/types'
 
 const container: Variants = {
-  hidden: { opacity: 0 },
-  show: { opacity: 1, transition: { staggerChildren: 0.08 } },
+  hidden: {},
+  show: { transition: { staggerChildren: 0.06 } },
 }
 
 const item: Variants = {
-  hidden: { opacity: 0, y: 14 },
-  show: { opacity: 1, y: 0 },
+  hidden: { opacity: 0, y: 16 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] } },
 }
 
-function getGreeting(hour: number, name: string): string {
-  if (hour < 6) return `Still up, ${name}?`
-  if (hour < 12) return `Morning, ${name}!`
-  if (hour < 17) return `Hey ${name} 👋`
-  if (hour < 21) return `Evening, ${name}!`
-  return `Night owl, ${name}?`
+function getGreeting(hour: number): string {
+  if (hour < 6) return 'Still up?'
+  if (hour < 12) return 'Good morning!'
+  if (hour < 17) return 'Good afternoon!'
+  if (hour < 21) return 'Good evening!'
+  return 'Night owl!'
 }
 
 export default function TodayPage() {
@@ -37,58 +37,55 @@ export default function TodayPage() {
   const today = new Date()
   const hour = today.getHours()
 
-  // Pick mascot mood from latest unread message, or time-of-day default
   const latestMsg = mascotMessages.find((m) => !m.isRead)
   const mascotMood: MascotMood = latestMsg
     ? (latestMsg.mood as MascotMood)
-    : hour < 8
-    ? 'sleepy'
-    : hour < 18
-    ? 'happy'
-    : 'encouraging'
+    : hour < 8 ? 'sleepy' : hour < 18 ? 'happy' : 'encouraging'
 
-  const greeting = getGreeting(hour, member?.name ?? 'friend')
+  const streak = member?.stats.currentStreak ?? 0
 
   return (
-    <div className="max-w-2xl mx-auto px-4 py-6">
+    <div className="max-w-xl mx-auto px-4">
 
-      {/* ── Hero greeting ──────────────────────────────────────── */}
+      {/* ── Hero ──────────────────────────────────────────────── */}
       <motion.div
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
         transition={{ duration: 0.4 }}
-        className="flex items-end gap-4 mb-7"
+        className="pt-7 pb-5 flex items-end justify-between"
       >
-        {/* Mascot */}
-        <MascotCharacter
-          mood={mascotMood}
-          size={88}
-          bobbing
-          className="shrink-0"
-        />
-
-        {/* Text */}
-        <div className="pb-1">
-          <p className="text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-1">
-            {format(today, 'EEEE, MMMM d')}
+        <div>
+          <p className="text-xs font-semibold text-muted-foreground uppercase tracking-[0.12em] mb-2">
+            {format(today, 'EEEE, MMM d')}
           </p>
-          <h1 className="text-2xl font-bold text-foreground leading-tight">
-            {greeting}
+          <h1 className="text-[2rem] font-black text-foreground leading-none tracking-tight">
+            {getGreeting(hour)}
           </h1>
+          <p className="text-lg font-semibold text-foreground/70 mt-0.5">
+            {member?.name ?? 'friend'}{member?.emoji ? ` ${member.emoji}` : ''}
+          </p>
           {household && (
-            <p className="text-sm text-muted-foreground mt-0.5">
+            <p className="text-sm text-muted-foreground mt-1">
               {household.emoji} {household.name}
-              {member && member.stats.currentStreak > 1 && (
-                <span className="ml-2 inline-flex items-center gap-1 text-amber-500 font-semibold">
-                  🔥 {member.stats.currentStreak}-day streak
-                </span>
-              )}
             </p>
           )}
+          {streak > 1 && (
+            <div className="inline-flex items-center gap-1.5 mt-2 bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-300 px-3 py-1.5 rounded-full text-sm font-semibold">
+              🔥 {streak}-day streak
+            </div>
+          )}
         </div>
+
+        <MascotCharacter
+          mood={mascotMood}
+          size={100}
+          bobbing
+          className="shrink-0 mb-1"
+        />
       </motion.div>
 
-      <motion.div variants={container} initial="hidden" animate="show" className="space-y-4">
+      {/* ── Content ───────────────────────────────────────────── */}
+      <motion.div variants={container} initial="hidden" animate="show" className="space-y-4 pb-6">
         <motion.div variants={item}>
           <QuickActions />
         </motion.div>

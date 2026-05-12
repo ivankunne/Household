@@ -9,6 +9,12 @@ import { format } from 'date-fns'
 import { cn } from '@/lib/utils'
 import { toast } from 'sonner'
 
+const priorityBar: Record<string, string> = {
+  high: 'bg-rose-400',
+  medium: 'bg-amber-400',
+  low: 'bg-transparent',
+}
+
 export function TodayTaskList() {
   const { tasks, completeTask, getTasksDueToday, getOverdueTasks } = useTaskStore()
   const { household, getCurrentMember, members } = useHouseholdStore()
@@ -23,44 +29,45 @@ export function TodayTaskList() {
     const member = getCurrentMember()
     if (!member) return
     await completeTask(taskId, member.id, household.id)
-    toast.success('Task done! ✨', { duration: 2000 })
+    toast.success('Done! 🎉', { duration: 1800 })
   }
 
   if (allTasks.length === 0) {
     return (
-      <div className="bg-emerald-50 dark:bg-emerald-900/20 rounded-3xl border border-emerald-100 dark:border-emerald-800/40 p-6 flex items-center gap-4">
-        <motion.div
-          animate={{ rotate: [0, -8, 8, -6, 6, 0] }}
-          transition={{ duration: 1.2, delay: 0.5 }}
-          className="text-4xl shrink-0 select-none"
+      <div className="bg-emerald-50 dark:bg-emerald-900/20 rounded-3xl p-6 flex items-center gap-4">
+        <motion.span
+          animate={{ rotate: [0, -8, 8, -5, 5, 0] }}
+          transition={{ duration: 1, delay: 0.4 }}
+          className="text-3xl select-none"
         >
           🎉
-        </motion.div>
+        </motion.span>
         <div>
-          <p className="font-bold text-emerald-800 dark:text-emerald-200">All clear for today!</p>
-          <p className="text-sm text-emerald-700/70 dark:text-emerald-300/70 mt-0.5">
-            Your home is happy. Go enjoy the day.
-          </p>
+          <p className="font-bold text-emerald-800 dark:text-emerald-200">All clear today!</p>
+          <p className="text-sm text-emerald-700/60 dark:text-emerald-300/60 mt-0.5">Go enjoy your day.</p>
         </div>
       </div>
     )
   }
 
+  const doneCount = allTasks.filter((t) => t.status === 'done').length
+
   return (
-    <div className="bg-card rounded-3xl border border-border overflow-hidden shadow-sm">
-      <div className="px-5 py-4 border-b border-border">
-        <p className="font-semibold text-foreground">Today&apos;s tasks</p>
-        <p className="text-xs text-muted-foreground mt-0.5">
-          {allTasks.filter(t => t.status === 'done').length} / {allTasks.length} done
+    <div className="bg-card rounded-3xl shadow-sm shadow-black/[0.05] overflow-hidden">
+      {/* Header */}
+      <div className="px-5 pt-4 pb-3 flex items-center justify-between">
+        <p className="font-bold text-foreground">Today</p>
+        <p className="text-sm font-semibold text-muted-foreground tabular-nums">
+          {doneCount}<span className="font-normal text-muted-foreground/60">/{allTasks.length}</span>
         </p>
       </div>
 
-      <ul className="divide-y divide-border">
+      {/* Task rows */}
+      <ul>
         <AnimatePresence initial={false}>
-          {allTasks.map((task) => {
+          {allTasks.map((task, i) => {
             const isDone = task.status === 'done'
-            const isOverdue = task.dueDate && new Date(task.dueDate) < new Date() &&
-              task.status !== 'done'
+            const isOverdue = task.dueDate && new Date(task.dueDate) < new Date() && !isDone
             const assignee = members.find((m) => m.id === task.assignedTo)
             const emoji = task.emoji ?? categoryEmojis[task.category] ?? '📋'
 
@@ -68,34 +75,47 @@ export function TodayTaskList() {
               <motion.li
                 key={task.id}
                 layout
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
                 exit={{ opacity: 0, height: 0 }}
-                className={cn('flex items-center gap-3 px-5 py-3.5 transition-colors', isDone && 'bg-muted/40')}
+                className={cn(
+                  'flex items-center gap-3 px-4 py-3.5 relative',
+                  i < allTasks.length - 1 && 'border-b border-border/50',
+                  isDone && 'bg-muted/30',
+                )}
               >
+                {/* Priority indicator */}
+                <div
+                  className={cn('absolute left-0 top-2 bottom-2 w-[3px] rounded-r-full', priorityBar[task.priority] ?? 'bg-transparent')}
+                />
+
+                {/* Check button */}
                 <button
                   onClick={() => !isDone && handleComplete(task.id)}
-                  className="shrink-0 transition-transform active:scale-90"
                   disabled={isDone}
+                  className="shrink-0 transition-transform active:scale-90 ml-1"
                 >
                   {isDone ? (
-                    <CheckCircle2 className="w-5 h-5 text-primary" />
+                    <CheckCircle2 className="w-[22px] h-[22px] text-primary animate-check-pop" />
                   ) : (
-                    <Circle className="w-5 h-5 text-muted-foreground hover:text-primary transition-colors" />
+                    <Circle className="w-[22px] h-[22px] text-border hover:text-primary transition-colors" />
                   )}
                 </button>
 
-                <span className="text-lg shrink-0">{emoji}</span>
+                <span className="text-xl shrink-0">{emoji}</span>
 
                 <div className="flex-1 min-w-0">
-                  <p className={cn('text-sm font-medium truncate', isDone && 'line-through text-muted-foreground')}>
+                  <p className={cn(
+                    'text-sm font-medium leading-tight',
+                    isDone ? 'line-through text-muted-foreground' : 'text-foreground',
+                  )}>
                     {task.title}
                   </p>
                   <div className="flex items-center gap-2 mt-0.5">
                     {task.dueDate && (
                       <span className={cn(
                         'flex items-center gap-1 text-[11px]',
-                        isOverdue ? 'text-destructive font-medium' : 'text-muted-foreground',
+                        isOverdue ? 'text-rose-500 font-medium' : 'text-muted-foreground',
                       )}>
                         <Clock className="w-3 h-3" />
                         {isOverdue ? 'Overdue' : format(new Date(task.dueDate), 'h:mm a')}
@@ -106,15 +126,6 @@ export function TodayTaskList() {
                     )}
                   </div>
                 </div>
-
-                <span className={cn(
-                  'text-xs px-2 py-0.5 rounded-full',
-                  task.priority === 'high' ? 'bg-rose-50 text-rose-600' :
-                  task.priority === 'medium' ? 'bg-amber-50 text-amber-600' :
-                  'bg-muted text-muted-foreground',
-                )}>
-                  {task.priority}
-                </span>
               </motion.li>
             )
           })}
